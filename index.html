@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Place Finder</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <meta charset="utf-8">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="css/styles.css" rel="stylesheet" media="screen">
+
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+
+        <script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
+        <script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a id="nav" class="navbar-brand" href="/">
+                        Find ___ Near ___
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <form id="search" class="nav navbar-nav navbar-form navbar-right ">
+                        <label id='nav'>Keyword:</label>
+                        <input type="text" id='what' placeholder="Bars, Burgers, Bologna" class="form-control">
+                        <label id='nav'>Near:</label>
+                        <input type="text" id='address' placeholder="Someplace, USA" class="form-control">
+                        <input data-bind="click: search" data-toggle="collapse" data-target="#navbar" id="search-btn" type="button" class="btn btn-primary pull-right" value="Search">
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <div id="body" class="container">
+            <div class="row">
+                <div id="map-canvas" class="col-xs-9"></div>
+                <div id="sidemenu" class="col-md-3">
+                    <div id="menu-contents" class="row">
+                        <div class="col-xs-12">
+                            <span class="glyphicon glyphicon-resize-horizontal" style="right: 11px;top:5px;"></span>
+                            <h1 align='center'>Found It!</h1>
+                            <div data-bind="foreach: listings" class="col-xs-12">
+                                <div data-bind="event: { mouseover: show, mouseout: hide }" style="color:black;" class="thumbnail">
+                                  <img data-bind="attr: { src: image_url }" src="" alt="image">
+                                  <h4><a data-bind="attr: { href: url}, text: name"></a></h4>
+                                  <img data-bind="attr: { src: rating_url }" class="rating" src="" alt="rating">
+                                  <li data-bind="text: location"></li>
+                                  <li data-bind="text: display_phone"></li>
+                                  <p data-bind="text: snippet_text"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="node_modules/knockout/build/output/knockout-latest.js"></script>
+        <script src="js/main.js"></script>
+        <script>
+            //If you click on the search
+            var openMenu = function() {
+                if(markers.length > 0){
+                    $("#sidemenu h1").text("Found these:");
+                }
+                else{
+                    $("#sidemenu h1").text("0 results");
+                }
+                $("#sidemenu").animate({right:'0px'}, {queue: false, duration: 500});
+            };
+            //Manually toggling.
+            $("#sidemenu").click(function() {
+                if($("#sidemenu").css("right") == "-195px"){
+                    openMenu();
+                } else {
+                    $("#sidemenu").animate({right:'-195px'}, {queue: false, duration: 500})
+                }
+            });
+            //If you hit the search button, the results will open but not close.
+            $("#search-btn").click(function() {
+                openMenu();
+            });
+        </script>
+    </body>
+</html>
