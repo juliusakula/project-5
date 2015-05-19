@@ -44,7 +44,7 @@ var makeMarker = function( coords, info ) {
     });
     var marker = new google.maps.Marker({
         position: myLatLng,
-        animation: google.maps.Animation.DROP,
+        animation: google.maps.Animation.DROP
     });
     google.maps.event.addListener(marker, 'mouseover', function() {
         infowindow.open(map, marker);
@@ -107,7 +107,7 @@ var ViewModel = function() {
         var mapOptions = {
           zoom: 12,
           center: latlng
-        }
+        };
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     };
     google.maps.event.addDomListener(window, 'load', initialize);
@@ -160,11 +160,9 @@ var ViewModel = function() {
             'method' : 'GET',
             'parameters' : parameters
         };
-        console.log(parameters);
         OAuth.setTimestampAndNonce(message);
         OAuth.SignatureMethod.sign(message, accessor);
         var parameterMap = OAuth.getParameterMap(message.parameters);
-        console.log(parameterMap);
         $.ajax({
             'url' : message.action,
             'data' : parameterMap,
@@ -191,9 +189,3 @@ var ViewModel = function() {
 };
 
 ko.applyBindings(new ViewModel());
-
-
-
-
-
-
